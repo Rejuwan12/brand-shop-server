@@ -68,6 +68,29 @@ app.post("/cart", async (req, res) => {
     res.send(result)
   })
 
+  // update cart
+
+  app.put("/products/:id",  async (req, res) => {
+    const id = req.params.id;
+    const query = { _id: new ObjectId(id) }
+    const options = { upsert: true }
+    const updateProduct = req.body;
+    const newProduct = {
+      $set: {
+
+      name: updateProduct.name,
+      brand: updateProduct.brand,
+      type: updateProduct.type,
+      price: updateProduct.price,
+      rating: updateProduct.rating,
+      photo: updateProduct.photo,
+      details: updateProduct.details
+      },
+    }
+    const result = await productCollection.updateOne(query, newProduct, options)
+    res.send(result)
+  })
+
 
 
 
